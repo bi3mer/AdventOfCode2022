@@ -1,4 +1,5 @@
 use std::fs;
+use std::time::Instant;
 
 fn get_index(b: u8) -> usize {
     if b >= b'a' && b <= b'z' {
@@ -51,18 +52,18 @@ fn part_2(input: &str) -> u32 {
             _ => break,
         };
 
-        let mut seen = [[false; 52]; 3];
-        entries.iter().enumerate().for_each(|(i, e)| {
+        let mut seen = [[false; 52]; 3]; // 1D would probably be faster
+        for (i,e) in entries.iter().enumerate() {
             e.bytes().for_each(|b| {
                 seen[i][get_index(b)] = true;
             });
-        });
+        }
 
-        (0..52).for_each(|i| {
+        for i in 0..52 {
             if seen[0][i] && seen[1][i] && seen[2][i] {
                 sum += i as u32 + 1;
             }
-        });
+        }
     }
 
     sum
@@ -94,6 +95,14 @@ CrZsJsPPZsGzwwsLwLmpwMDw";
 
 fn main() {
     let input = fs::read_to_string("input.txt").unwrap();
-    println!("Part 1: {}", part_1(&input));
-    println!("Part 2: {}", part_2(&input));
+    let part1_now = Instant::now();
+    let res1 = part_1(&input);
+    let part1_elapsed = part1_now.elapsed();
+    
+    let part2_now = Instant::now();
+    let res2 = part_2(&input);
+    let part2_elapsed = part2_now.elapsed();
+
+    println!("Part 1 ({:?}): {}", part1_elapsed, res1);
+    println!("Part 2 ({:?}): {}", part2_elapsed, res2);
 }
