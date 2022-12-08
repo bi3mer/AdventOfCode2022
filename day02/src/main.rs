@@ -1,7 +1,5 @@
 use std::fs;
 
-
-
 #[derive(Copy, Clone, Debug)]
 pub enum RPS {
     Rock,
@@ -19,6 +17,7 @@ impl RPS {
     }
 }
 
+// better to use from_str trait in the future
 pub fn rps_from_string(element: &str) -> RPS {
     match element {
         "A" => RPS::Rock,
